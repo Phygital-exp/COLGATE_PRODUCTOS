@@ -1,7 +1,7 @@
 {
-  "name": "asesorrmt-proxy",
+  "name": "asesorrmtcolgate-proxy",
   "version": "1.0.0",
-  "description": "Proxy para asesorrmt",
+  "description": "Proxy para asesorrmtcolgate",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"

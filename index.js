@@ -11,18 +11,18 @@ const AUTH_HEADERS = {
 
 app.use(cors());
 
-app.get("/api/asesorrmt/plu", async (req, res) => {
+app.get("/api/asesorrmt/productos-colgate", async (req, res) => {
     try {
-        const apiUrl = "https://botai.smartdataautomation.com/api_backend_ai/dinamic-db/report/119/plu_asesor_rmt";
-        
+        const apiUrl = "https://botai.smartdataautomation.com/api_backend_ai/dinamic-db/report/119/productos_asesor_rmt_colgate";
+
         console.log(`Consultando API: ${apiUrl}`);
-        
+
         const response = await fetch(apiUrl, { headers: AUTH_HEADERS });
         const data = await response.json();
         res.json(data);
     } catch (err) {
-        console.error("Error en el proxy asesorrmt PLU:", err);
-        res.status(500).json({ error: "Error al obtener datos de asesorrmt PLU" });
+        console.error("Error en el proxy asesorrmt productos Colgate:", err);
+        res.status(500).json({ error: "Error al obtener datos de asesorrmt productos Colgate" });
     }
 });
 
