@@ -5,38 +5,38 @@ let filteredData = [];
 let currentChannel = '';
 
 // URL base de la API - Apunta al servidor en Railway
-const API_BASE_URL = 'https://pdv-plu-asesor-rmt-production.up.railway.app/api/asesorrmt/plu';
+const API_BASE_URL = 'https://pdv-plu-asesor-rmt-production.up.railway.app/api/asesorrmt/productos-colgate';
 
 // Cargar datos de la API según el canal seleccionado
 async function loadData() {
     try {
         const apiUrl = API_BASE_URL;
-        
+
         console.log(`Cargando datos desde: ${apiUrl}`);
-        
+
         // Mostrar indicador de carga
         showLoadingState();
-        
+
         const response = await fetch(apiUrl);
-        
+
         if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
-        
+
         const data = await response.json();
         fullData = Array.isArray(data) ? data : (data.result || []);
         filteredData = fullData;
         currentChannel = '';
 
         console.log(`Datos cargados:`, fullData.length, 'registros');
-        
+
         // Ocultar indicador de carga
         hideLoadingState();
-        
+
         // Inicializar búsqueda
         initializeFuse();
-        
+
         // Limpiar resultados anteriores
         document.getElementById('results').innerHTML = '';
-        
+
     } catch (error) {
         console.error("Error al cargar los datos:", error);
         hideLoadingState();
@@ -47,7 +47,7 @@ async function loadData() {
 // Inicializar Fuse.js para búsqueda rápida
 function initializeFuse() {
     const options = {
-        keys: ['PLU', 'DESCRIPCION_PLU', 'MARCA', 'SUBLINEA'],
+        keys: ['CODIGO', 'PRODUCTO'],
         threshold: 0.3,
     };
     fuse = new Fuse(filteredData, options);
@@ -64,7 +64,7 @@ function handleInput() {
 // Realizar búsqueda en los datos cargados
 function performFilteredSearch() {
     const query = document.getElementById('searchInput').value.trim();
-    
+
     // Si hay texto de búsqueda, aplicar búsqueda con Fuse
     if (query && filteredData.length > 0) {
         const results = fuse.search(query).map(result => result.item);
@@ -84,12 +84,10 @@ function renderResults(results) {
             output += `
                 <div class="result-item">
                     <ul>
-                        <li><strong>PLU:</strong> ${result.PLU || 'N/A'}
-                        <i class="material-icons copy-icon" onclick="copyToClipboard('${result.PLU}')">content_copy</i>
+                        <li><strong>Código:</strong> ${result.CODIGO || 'N/A'}
+                        <i class="material-icons copy-icon" onclick="copyToClipboard('${result.CODIGO}')">content_copy</i>
                         </li>
-                        <li><strong>Descripción:</strong> ${result.DESCRIPCION_PLU || 'N/A'}</li>
-                        <li><strong>Marca:</strong> ${result.MARCA || 'N/A'}</li>
-                        <li><strong>Sublínea:</strong> ${result.SUBLINEA || 'N/A'}</li>
+                        <li><strong>Producto:</strong> ${result.PRODUCTO || 'N/A'}</li>
                     </ul>
                 </div>
             `;
@@ -104,7 +102,7 @@ function renderResults(results) {
 // Copiar al portapapeles
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text)
-        .then(() => alert('Documento copiado al portapapeles'))
+        .then(() => alert('Código copiado al portapapeles'))
         .catch(err => console.error('Error:', err));
 }
 
@@ -138,7 +136,7 @@ function showError(message) {
 // Modo Oscuro
 document.getElementById("darkModeToggle").addEventListener("click", function() {
     document.body.classList.toggle("dark-mode");
-    
+
     // Cambiar el texto del botón según el modo
     const isDarkMode = document.body.classList.contains("dark-mode");
     this.innerHTML = isDarkMode ? "☀️ Modo claro" : "🌙 Modo oscuro";
