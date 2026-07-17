@@ -5,7 +5,7 @@ let filteredData = [];
 let currentChannel = '';
 
 // URL base de la API - Apunta al servidor en Railway
-const API_BASE_URL = 'https://pdv-plu-asesor-rmt-production.up.railway.app/api/asesorrmt/productos-colgate';
+const API_BASE_URL = 'https://colgateproductos-production.up.railway.app/api/asesorrmt/productos-colgate';
 
 // Cargar datos de la API según el canal seleccionado
 async function loadData() {
