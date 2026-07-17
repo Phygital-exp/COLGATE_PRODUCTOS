@@ -1,0 +1,32 @@
+const express = require("express");
+const cors = require("cors");
+const fetch = require("node-fetch");
+const app = express();
+
+const PORT = process.env.PORT;
+const AUTH_HEADERS = {
+    Authorization: "Token 9b7661d9292aab2c339b95bf251063791c2a62ff",
+    "Content-Type": "application/json",
+};
+
+app.use(cors());
+
+app.get("/api/asesorrmt/plu", async (req, res) => {
+    try {
+        const apiUrl = "https://botai.smartdataautomation.com/api_backend_ai/dinamic-db/report/119/plu_asesor_rmt";
+        
+        console.log(`Consultando API: ${apiUrl}`);
+        
+        const response = await fetch(apiUrl, { headers: AUTH_HEADERS });
+        const data = await response.json();
+        res.json(data);
+    } catch (err) {
+        console.error("Error en el proxy asesorrmt PLU:", err);
+        res.status(500).json({ error: "Error al obtener datos de asesorrmt PLU" });
+    }
+});
+
+
+app.listen(PORT, () => {
+    console.log(`Servidor escuchando en puerto ${PORT}`);
+});
